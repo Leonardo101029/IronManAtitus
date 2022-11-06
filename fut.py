@@ -1,5 +1,6 @@
 import os
 import pygame
+import time
 pygame.init()
 os.system("cls")  
 print('Começando o jogo de futebol')
@@ -31,13 +32,26 @@ jogando = True
 
 placarPlayer1 = 0 
 placarPlayer2 = 0
+narragol = pygame.mixer.Sound("assets/narragol.wav")
 
 def escreverTexto(texto):
     fonte = pygame.font.Font("freesansbold.ttf", 15)
     textoDisplay = fonte.render(texto, True, branco)
     display.blit(textoDisplay, (5,5))
 
+def gol():
+    pygame.mixer.music.stop()
+    pygame.mixer.Sound.play(narragol)
+    fonte = pygame.font.Font("freesansbold.ttf", 45)
+    textoDisplay = fonte.render('GOOOOOLL', True, branco)
+    display.blit(textoDisplay, (100, 283))
+    pygame.display.update()
+    time.sleep(3)
 
+
+pygame.mixer.music.load("assets/torcida.mp3")
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(1)
 
 while jogando:
     for evento in pygame.event.get():
@@ -69,19 +83,21 @@ while jogando:
     #pygame.draw.circle(display, preto, posicao, 10)
 
     if posicaobolay <8 and posicaobolax > 173 and posicaobolax <279:
+        gol()
         placarPlayer1 += 1
         posicaobolax = 202
         posicaobolay = 283
          
     if posicaobolay >552 and posicaobolax > 173 and posicaobolax <279:
+        gol()
         placarPlayer2 += 1
         posicaobolax = 202
         posicaobolay = 283
 
-    escreverTexto('Placar'+ str(placarPlayer1+' x '+str(placarPlayer2)))
+    escreverTexto('Placar'+ str(placarPlayer1)+' x '+str(placarPlayer2))
     pygame.display.update()
     fps.tick(60)
-
+ 
 
 print("Volte sempre")
 
